@@ -66,6 +66,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 - `Grouped Tree Layout`
   - Inside code blocks, prefer:
     - source label like `[direct]` or `[http://127.0.0.1:7890]`
+    - one short `IP` line near the top of each path block as the visual anchor
     - child target lines using `├─` and `└─`
   - If the main IP is long, place it on its own short line outside the code block
 
