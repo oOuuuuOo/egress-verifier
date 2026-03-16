@@ -779,6 +779,19 @@ def is_ip_like(value: str) -> bool:
 
 def parse_attr(attr: str) -> Tuple[str, Optional[int], Optional[int]]:
     text = str(attr).strip()
+    if text.startswith("{") and text.endswith("}"):
+        try:
+            payload = json.loads(text)
+            attr_type = str(payload.get("type_label", "")).strip()
+            score = payload.get("score")
+            confidence = payload.get("confidence")
+            return (
+                attr_type,
+                int(score) if isinstance(score, int) else None,
+                int(confidence) if isinstance(confidence, int) else None,
+            )
+        except Exception:
+            pass
     if " :: " in text:
         parts = text.split(" :: ")
         if len(parts) == 3:
@@ -794,12 +807,34 @@ def parse_attr(attr: str) -> Tuple[str, Optional[int], Optional[int]]:
 
 
 def parse_attr_profile(attr: str) -> AttrProfile:
+    text = str(attr).strip()
+    if text.startswith("{") and text.endswith("}"):
+        try:
+            payload = json.loads(text)
+            type_label = str(payload.get("type_label", "")).strip()
+            return AttrProfile(
+                type_label=type_label,
+                primary_type=str(payload.get("primary_type", type_label.split(", ", 1)[0].strip() if type_label else "Unknown")),
+                score=payload.get("score"),
+                confidence=payload.get("confidence"),
+                residential_fit=payload.get("residential_fit"),
+                abuse_risk=payload.get("abuse_risk"),
+                stability=payload.get("stability"),
+                ai_fit=payload.get("ai_fit"),
+            )
+        except Exception:
+            pass
+
     attr_type, score, confidence = parse_attr(attr)
     return AttrProfile(
         type_label=attr_type,
         primary_type=attr_type.split(", ", 1)[0].strip() if attr_type else "Unknown",
         score=score,
         confidence=confidence,
+        residential_fit=score,
+        abuse_risk=None,
+        stability=confidence,
+        ai_fit=score,
     )
 
 
@@ -817,13 +852,14 @@ def primary_attr_type(attr: str) -> str:
 
 
 def classify_residential_status(attr: str) -> str:
-    attr_type = primary_attr_type(attr)
-    _, purity, _ = parse_attr(attr)
-    if attr_type in {"ISP", "Mobile"} and (purity is None or purity >= 70):
+    profile = parse_attr_profile(attr)
+    attr_type = str(profile["primary_type"])
+    residential_fit = profile.get("residential_fit")
+    if attr_type in {"ISP", "Mobile"} and (residential_fit is None or residential_fit >= 70):
         return "is 家宽IP"
     if attr_type in {"Hosting", "VPN", "Proxy", "Tor"}:
         return "is not 家宽IP"
-    if attr_type == "Business" and purity is not None and purity < 70:
+    if attr_type == "Business" and residential_fit is not None and residential_fit < 70:
         return "is not 家宽IP"
     if attr_type in {"Unknown", "-", ""}:
         return "无法判断"
@@ -1157,12 +1193,24 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
                 m = re.search(r'Fraud Score: (\d+)', r.text)
                 if m:
                     fraud_score = int(m.group(1))
-                    if fraud_score >= 80:
-                        evidence.append(("vpn", 25))
-                        source_votes.append("vpn")
-                    elif fraud_score >= 50:
+                    # Scamalytics is closer to an abuse/fraud signal than a pure
+                    # "residential vs hosting" classifier. Use it as a calibrator
+                    # across the full range instead of only penalizing high scores.
+                    if fraud_score <= 10:
+                        evidence.append(("isp", 20))
+                        source_votes.append("isp")
+                    elif fraud_score <= 25:
+                        evidence.append(("isp", 12))
+                        source_votes.append("isp")
+                    elif fraud_score < 50:
+                        evidence.append(("business", 8))
+                        source_votes.append("business")
+                    elif fraud_score < 80:
                         evidence.append(("hosting", 15))
                         source_votes.append("hosting")
+                    else:
+                        evidence.append(("vpn", 25))
+                        source_votes.append("vpn")
         except Exception: pass
         return None
 
@@ -1265,25 +1313,38 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
     if not all_labels:
         all_labels = [primary_type]
 
-    total_weight = residential_total + non_residential_total
-    if total_weight == 0:
-        purity = 50
-    elif primary_type in {"ISP", "Mobile"}:
-        purity = int(100 * residential_total / total_weight)
-    elif primary_type == "Business":
-        purity = int(100 * totals["business"] / total_weight)
-    elif primary_type == "Hosting":
-        purity = int(100 * totals["hosting"] / total_weight)
-    elif primary_type == "Proxy":
-        purity = int(100 * totals["proxy"] / total_weight)
-    elif primary_type == "VPN":
-        purity = int(100 * totals["vpn"] / total_weight)
-    elif primary_type == "Tor":
-        purity = int(100 * totals["tor"] / total_weight)
-    else:
-        purity = 50
+    residential_signal = totals["isp"] + int(totals["mobile"] * 1.15)
+    environment_penalty = (
+        int(totals["hosting"] * 0.85)
+        + totals["proxy"]
+        + totals["vpn"]
+        + int(totals["tor"] * 1.10)
+        + int(totals["business"] * 0.55)
+    )
+    residential_denominator = residential_signal + environment_penalty
+    residential_fit = (
+        int(100 * residential_signal / residential_denominator)
+        if residential_denominator > 0
+        else 50
+    )
 
-    purity = max(0, min(100, purity))
+    abuse_signal = (
+        int(totals["proxy"] * 1.0)
+        + int(totals["vpn"] * 1.0)
+        + int(totals["tor"] * 1.15)
+        + int(totals["hosting"] * 0.65)
+        + int(totals["business"] * 0.35)
+    )
+    abuse_dampener = totals["isp"] + int(totals["mobile"] * 1.1)
+    abuse_denominator = abuse_signal + abuse_dampener
+    abuse_risk = (
+        int(100 * abuse_signal / abuse_denominator)
+        if abuse_denominator > 0
+        else 50
+    )
+
+    residential_fit = max(0, min(100, residential_fit))
+    abuse_risk = max(0, min(100, abuse_risk))
     if source_votes:
         group_votes = [map_kind_to_group(vote) for vote in source_votes if map_kind_to_group(vote) != "unknown"]
         vote_total = len(group_votes)
@@ -1309,7 +1370,34 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
     else:
         confidence = 0
 
-    attr_str = f"{', '.join(all_labels)} :: {purity} :: {confidence}"
+    stability = max(0, min(100, confidence))
+
+    ai_fit = int(
+        residential_fit * 0.45
+        + (100 - abuse_risk) * 0.35
+        + stability * 0.20
+    )
+
+    if primary_type in {"VPN", "Proxy", "Tor"}:
+        ai_fit -= 12
+    elif primary_type == "Hosting":
+        ai_fit -= 8
+    elif primary_type == "Business":
+        ai_fit -= 4
+
+    ai_fit = max(0, min(100, ai_fit))
+
+    attr_payload = {
+        "type_label": ", ".join(all_labels),
+        "primary_type": primary_type,
+        "score": ai_fit,
+        "confidence": confidence,
+        "residential_fit": residential_fit,
+        "abuse_risk": abuse_risk,
+        "stability": stability,
+        "ai_fit": ai_fit,
+    }
+    attr_str = json.dumps(attr_payload, separators=(",", ":"))
         
     return full_geo, attr_str
 
