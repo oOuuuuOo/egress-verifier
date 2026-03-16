@@ -98,6 +98,8 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Distinguish each tested path header with decorative divider characters so the eye can jump between them quickly.
 - In chat output, provider names should align with OpenClaw's channel names rather than raw probe labels.
 - If multiple internal probes belong to one provider, collapse them into the single provider name the OpenClaw user expects.
+- Keep `Geo` very short in chat output. Prefer `flag + shortest useful place/provider hint`, for example `🇺🇸 AT&T` or `🇺🇸 Warrenville · AT&T`.
+- Avoid long raw strings such as full legal entity names, repeated country codes, or full ASN labels in the chat rollup.
 
 ## Updating Targets
 
@@ -163,7 +165,7 @@ Preferred chat rendering:
 │     ├─ Together AI
 │     └─ Microsoft Copilot
 │  🍃 Rollup
-│  Geo         : US Warrenville AT&T Enterprises, LLC
+│  Geo         : 🇺🇸 Warrenville · AT&T
 │  Profile     : ISP, Business
 │  Score       : 75 Moderate Risk
 │  Confidence  : 59% mixed
@@ -182,7 +184,7 @@ Preferred chat rendering:
 │     ├─ Together AI
 │     └─ Microsoft Copilot
 │  🍃 Rollup
-│  Geo         : US Warrenville AT&T Enterprises, LLC
+│  Geo         : 🇺🇸 Warrenville · AT&T
 │  Profile     : ISP, Business
 │  Score       : 75 Moderate Risk
 │  Confidence  : 59% mixed
