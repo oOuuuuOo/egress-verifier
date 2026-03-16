@@ -982,17 +982,32 @@ def normalize_provider_label(value: str) -> str:
 def filter_targets_by_provider(
     targets: List[Dict[str, Any]],
     requested_providers: List[str],
-) -> List[Dict[str, Any]]:
+) -> Tuple[List[Dict[str, Any]], List[str]]:
     if not requested_providers:
-        return targets
+        return targets, []
 
-    wanted = {normalize_provider_label(item) for item in requested_providers if str(item).strip()}
+    requested_pairs: List[Tuple[str, str]] = []
+    for item in requested_providers:
+        label = str(item).strip()
+        if not label:
+            continue
+        requested_pairs.append((normalize_provider_label(label), label))
+
+    wanted = {normalized for normalized, _ in requested_pairs}
     filtered = [
         target
         for target in targets
         if normalize_provider_label(target.get("provider", target.get("name", ""))) in wanted
     ]
-    return filtered
+    matched = {
+        normalize_provider_label(target.get("provider", target.get("name", "")))
+        for target in filtered
+    }
+    missing: List[str] = []
+    for normalized, original in requested_pairs:
+        if normalized not in matched and original not in missing:
+            missing.append(original)
+    return filtered, missing
 
 async def analyze_ip(ip: str) -> Tuple[str, str, str]:
     """Queries multiple APIs to determine Geolocation, Score, and Attribute."""
@@ -1452,7 +1467,7 @@ async def main():
         sys.exit(1)
         
     targets = config.get("targets", [])
-    targets = filter_targets_by_provider(targets, args.provider)
+    targets, untested_providers = filter_targets_by_provider(targets, args.provider)
     if not targets:
         if args.provider:
             console.print(
@@ -1571,6 +1586,11 @@ async def main():
             console.print(f"[bold yellow]Summary:[/] all successful targets saw exit IP {summary_ip}, but residential status is unclear")
         else:
             console.print(f"[bold yellow]Summary:[/] most successful targets saw exit IP {summary_ip}, but residential status is unclear")
+
+    if untested_providers:
+        console.print(
+            f"[bold yellow]Untested providers:[/] {', '.join(untested_providers)}"
+        )
 
     rollup = build_ip_rollup(results)
     if rollup:

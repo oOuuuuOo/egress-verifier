@@ -74,6 +74,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 
 - Prefer the same outbound path OpenClaw really uses.
 - Only test the providers currently configured in OpenClaw for this run. Do not default to the whole provider superset unless the user explicitly asks for a broad sweep.
+- If OpenClaw has configured providers that do not exist in the bundled measurable target set, do not silently drop them. Report them as untested.
 - Do not add provider targets that only prove reachability. Keep targets focused on real exit-IP reflection.
 - If a provider does not expose a stable official IP-reflection endpoint, leave it out rather than inventing a fake signal.
 - Preserve the existing output shape unless the user explicitly asks to redesign it.
@@ -126,6 +127,8 @@ Current provider labels in the bundled target file include:
 - `Mistral AI`
 - `Together AI`
 - `Copilot`
+
+If a requested provider has no measurable target in `assets/targets.toml`, it should appear in the final report as `Untested providers` rather than being silently omitted.
 
 ## Reporting Template
 

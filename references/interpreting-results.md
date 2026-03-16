@@ -19,6 +19,7 @@ This table answers the main question: which IP does each provider actually see?
 ## How To Use It For OpenClaw
 
 - Test only the providers that are actually configured in OpenClaw for the current run.
+- If some configured providers have no measurable official target, list them as untested.
 - If most or all provider targets show the same clean-looking IP, the path is probably suitable.
 - If providers split across different IPs, OpenClaw traffic is likely not leaving through one consistent path.
 - If the only observed IP scores as `Hosting`, `VPN`, or `Proxy`, assume the egress is not residential enough.
@@ -85,11 +86,15 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 - `Conclusion Discipline`
   - Keep conclusion text compact
   - Emphasize the detection result itself over narrative explanation
-  - Good conclusion elements:
+- Good conclusion elements:
     - final exit IP
     - profile/risk direction
     - same-path or split-path finding
   - Avoid long retrospective wording unless the user explicitly asks for debugging detail
+
+- `Untested Providers`
+  - If OpenClaw is configured with providers that are outside the measurable target set, show them explicitly as untested
+  - Do not silently treat "not tested" as if it were "passed"
 
 These should supplement, not replace:
 
