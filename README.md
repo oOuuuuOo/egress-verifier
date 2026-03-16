@@ -1,5 +1,11 @@
 # Egress Verifier
 
+![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-4f46e5?style=flat-square)
+![Egress Verification](https://img.shields.io/badge/Focus-Egress%20Verification-0f766e?style=flat-square)
+![AI Routing](https://img.shields.io/badge/Use%20Case-AI%20Routing-2563eb?style=flat-square)
+![IP Quality](https://img.shields.io/badge/Checks-IP%20Quality-f59e0b?style=flat-square)
+![Provider Side](https://img.shields.io/badge/Measures-Provider--Observed%20IP-7c3aed?style=flat-square)
+
 `egress-verifier` is an OpenClaw skill for checking what IP official AI provider endpoints actually see when your traffic leaves the machine.
 
 It is built for the real-world situation where a model chain may look correct locally, but the final egress is still wrong: a VPS IP leaks out, a dirty proxy is still in use, IPv4 and IPv6 split unexpectedly, or one provider sees a different path from the others.
