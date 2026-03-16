@@ -35,6 +35,7 @@ When the result is sent through Telegram or another chat surface:
 - Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
 - Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
 - Group the report by tested path or port, but prefer a single shared code block when comparing multiple paths.
+- Collapse multiple low-level probes into the OpenClaw provider name the user actually sees in the model/auth menu.
 
 ## Text Replacements For Visual Signals
 
@@ -74,6 +75,10 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 - `Active Channel Marker`
   - When the current OpenClaw provider is known, prefix that provider line with `⭐`
   - This is preferred over Markdown bold inside code blocks, since bold will not render there
+
+- `Provider Labeling`
+  - Prefer user-facing provider names such as `OpenAI`, `Anthropic`, `MiniMax`, `xAI (Grok)`, `Mistral AI`, `Together AI`, and `Copilot`
+  - Avoid raw probe labels such as `OpenAI OAuth`, `ChatGPT`, `Platform`, `Anthropic Console`, or `Mistral API` in the final chat summary
 
 These should supplement, not replace:
 

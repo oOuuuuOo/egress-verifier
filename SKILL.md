@@ -85,6 +85,8 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Group chat output by tested path or port. Each tested path should read like one self-contained block.
 - Prefer a single shared code block when multiple tested paths are being compared in one reply.
 - Distinguish each tested path header with decorative divider characters so the eye can jump between them quickly.
+- In chat output, provider names should align with OpenClaw's channel names rather than raw probe labels.
+- If multiple internal probes belong to one provider, collapse them into the single provider name the OpenClaw user expects.
 
 ## Updating Targets
 
@@ -114,11 +116,11 @@ Preferred chat rendering:
 ╭─ 🧪 [http://127.0.0.1:18080] ─────────
 │  🧭 Target hits
 │  └─ 2600:1700:...:72f0
-│     ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
-│     ├─ Anthropic Console / Claude
-│     ├─ MiniMax Intl Web / Platform
-│     ├─ xAI Grok
-│     ├─ Mistral API / Chat
+│     ├─ ⭐ OpenAI
+│     ├─ Anthropic
+│     ├─ MiniMax
+│     ├─ xAI (Grok)
+│     ├─ Mistral AI
 │     ├─ Together AI
 │     └─ Microsoft Copilot
 │  🍃 Rollup
@@ -133,11 +135,11 @@ Preferred chat rendering:
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
 │  🧭 Target hits
 │  └─ 2600:1700:...:72f0
-│     ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
-│     ├─ Anthropic Console / Claude
-│     ├─ MiniMax Intl Web / Platform
-│     ├─ xAI Grok
-│     ├─ Mistral API / Chat
+│     ├─ ⭐ OpenAI
+│     ├─ Anthropic
+│     ├─ MiniMax
+│     ├─ xAI (Grok)
+│     ├─ Mistral AI
 │     ├─ Together AI
 │     └─ Microsoft Copilot
 │  🍃 Rollup
@@ -235,5 +237,18 @@ Confidence : 59% mixed
   - Example:
 
 ```text
-   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
+   ├─ ⭐ OpenAI
 ```
+
+- `Provider Naming Rule`
+  - In chat output, prefer the OpenClaw-facing provider name:
+    - `OpenAI`
+    - `Anthropic`
+    - `MiniMax`
+    - `Moonshot AI`
+    - `Google`
+    - `xAI (Grok)`
+    - `Mistral AI`
+    - `Together AI`
+    - `Copilot`
+  - Do not expose low-level probe names such as `OAuth`, `Platform`, `Console`, `Web`, or `API` unless the user explicitly asks for probe-level detail.
