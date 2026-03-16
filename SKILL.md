@@ -126,7 +126,7 @@ Profile     : ISP, Business
 Score       : 75 Moderate Risk
 Confidence  : 59% mixed
 Cleanliness : 🌼 Clean
-Signal Bar  : 🌟🌟🌟🌟🌟🌟🌟▫️▫️▫️
+Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
 
 🪄 Conclusion
 当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
@@ -147,16 +147,17 @@ When terminal colors are unavailable, add these text replacements:
 - `Signal Bar`
   - Render a fixed-width 10-slot bar
   - Prefer lively but intuitive symbols in chat:
-    - retained cleanliness: `🌟`
+    - strong/clean segment: `🍔`
+    - transitional/risk segment: `🍟`
     - remaining/empty slots: `▫️`
   - If emoji rendering is poor, fall back to Unicode circles:
     - retained cleanliness: `●`
     - remaining/empty slots: `○`
   - Example:
-    - `92` -> `🌟🌟🌟🌟🌟🌟🌟🌟🌟▫️`
-    - `75` -> `🌟🌟🌟🌟🌟🌟🌟▫️▫️▫️`
-    - `38` -> `🌟🌟🌟🌟▫️▫️▫️▫️▫️▫️`
-    - `0` -> `▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️`
+    - `92` -> `🍔🍔🍔🍔🍔🍔🍔🍔🍔▫️`
+    - `75` -> `🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️`
+    - `38` -> `🍔🍔🍔🍟🍟▫️▫️▫️▫️▫️`
+    - `0` -> `🍟🍟🍟▫️▫️▫️▫️▫️▫️▫️`
 
 - `Confidence Cue`
   - Append a short cue after confidence:
