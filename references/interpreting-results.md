@@ -48,9 +48,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Signal Bar`
   - Fixed-width 6-slot chat-friendly bar
-  - Prefer cute but intuitive markers, for example: `🍔🍔🍔🍔🍟▫️`
+  - Prefer a light hierarchy, for example: `🍔🍟🍟🍟▫️▫️`
   - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●○○`
-  - Mid-range scores should not look too healthy. Keep the burger count conservative for `60-74` style results.
+  - `🍔` should stay sparse. Let `🍟` carry most mid-range positive weight so the bar does not look too heavy.
 
 - `Confidence Cue`
   - Short word after confidence to convey stability
