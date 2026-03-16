@@ -33,6 +33,7 @@ When the result is sent through Telegram or another chat surface:
 - Use aligned key-value lines for the rollup if a full table would wrap.
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
 - Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
+- Add light emoji anchors and tree glyphs so the message is easier to scan in Telegram.
 
 ## Text Replacements For Visual Signals
 
@@ -50,6 +51,16 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 - `Confidence Cue`
   - Short word after confidence to convey stability
   - Example: `59% mixed`, `88% strong`
+
+- `Emoji Anchors`
+  - Use a small number of section markers such as `✅`, `📍`, `📊`, `🧾`
+  - Do not spam emojis on every line
+
+- `Grouped Tree Layout`
+  - Inside code blocks, prefer:
+    - source label like `[direct]` or `[http://127.0.0.1:7890]`
+    - one IP line
+    - child target lines using `├─` and `└─`
 
 These should supplement, not replace:
 
