@@ -82,6 +82,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Use a small number of bright, friendly section emojis and line-prefix markers to improve scanability.
 - Do not rely on real text color in chat. Simulate emphasis with emoji, spacing, and concise labels.
 - When the currently configured OpenClaw provider/channel is known, mark it explicitly inside the grouped list.
+- Group chat output by tested path or port. Each tested path should read like one self-contained block.
 
 ## Updating Targets
 
@@ -99,8 +100,8 @@ If you need help interpreting the report, read `references/interpreting-results.
 When OpenClaw reports results in chat, use this structure:
 
 1. Short one-line finding.
-2. A compact code block for grouped per-target exit IPs.
-3. A compact code block for unique exit-IP rollup.
+2. One compact code block per tested path or port.
+3. Inside each block, include both grouped target hits and the rollup for that same path.
 4. A short conclusion in prose.
 
 Preferred chat rendering:
@@ -108,8 +109,8 @@ Preferred chat rendering:
 ```text
 🌈 Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
-──────── 🧭 Per-target exit IPs ────────
-[direct]
+[http://127.0.0.1:18080]
+──────── 🧭 Target hits ────────
 └─ 2600:1700:...:72f0
    ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
    ├─ Anthropic Console / Claude
@@ -118,9 +119,7 @@ Preferred chat rendering:
    ├─ Mistral API / Chat
    ├─ Together AI
    └─ Microsoft Copilot
-
-──────── 🍃 Exit IP rollup ────────
-IP          : 2600:1700:...:72f0
+──────── 🍃 Rollup ────────
 Geo         : US Warrenville AT&T Enterprises, LLC
 Profile     : ISP, Business
 Score       : 75 Moderate Risk
@@ -128,9 +127,27 @@ Confidence  : 59% mixed
 Cleanliness : 🌼 Clean
 Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
 
-🪄 Conclusion
-当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
+[socks5://127.0.0.1:11080]
+──────── 🧭 Target hits ────────
+└─ 2600:1700:...:72f0
+   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
+   ├─ Anthropic Console / Claude
+   ├─ MiniMax Intl Web / Platform
+   ├─ xAI Grok
+   ├─ Mistral API / Chat
+   ├─ Together AI
+   └─ Microsoft Copilot
+──────── 🍃 Rollup ────────
+Geo         : US Warrenville AT&T Enterprises, LLC
+Profile     : ISP, Business
+Score       : 75 Moderate Risk
+Confidence  : 59% mixed
+Cleanliness : 🌼 Clean
+Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
 ```
+
+🪄 Conclusion
+当前各测试路径的结果一致，说明这些本地链路当前落到同一个出口。
 
 ## Chat Signal Mapping
 
@@ -197,6 +214,11 @@ Confidence : 59% mixed
   - One short divider line inside each code block helps chunk the message without becoming noisy.
   - Example:
     - `──────── 🧭 Per-target exit IPs ────────`
+
+- `Block Grouping Rule`
+  - Prefer one code block per tested path, port, or connector.
+  - Keep target hits and rollup together inside that same block.
+  - Split into multiple code blocks only when the tested paths differ.
 
 - `Active Channel Marker`
   - If the current OpenClaw model/auth provider is known, mark that line with `⭐`
