@@ -102,7 +102,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - If multiple internal probes belong to one provider, collapse them into the single provider name the OpenClaw user expects.
 - Keep `Geo` very short in chat output. Prefer `flag + highest-level useful geography/provider hint`, for example `🇺🇸 AT&T`.
 - Avoid long raw strings such as full legal entity names, repeated country codes, or full ASN labels in the chat rollup.
-- Prefer short rollup field names in chat. Use `Geo`, `Tags`, `Risk`, `Clean`, `Conf`, and `Bar`.
+- Prefer short rollup field names in chat. Use `Geo`, `Tags`, `Risk`, `Clean`, `Conf`, and `Rate`.
 
 ## Updating Targets
 
@@ -175,7 +175,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Risk : 75 Moderate
 │  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
-│  └─ Bar  : ●●●●○○
+│  └─ Rate : ●●●●○○
 ╰───────────────────────────────────────
 
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
@@ -193,7 +193,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Risk : 75 Moderate
 │  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
-│  └─ Bar  : ●●●●○○
+│  └─ Rate : ●●●●○○
 ╰───────────────────────────────────────
 ```
 
@@ -234,7 +234,7 @@ When terminal colors are unavailable, add these text replacements:
   - Add one light emoji before the word for faster reading
   - Example: `🌿 Very Clean`, `🌼 Clean`, `🍋 Fair`, `🌶️ Risky`, `🔥 Dirty`
 
-- `Bar`
+- `Rate`
   - Render a fixed-width continuous 6-slot progress bar
   - Prefer compact continuous symbols, for example: `●●●●○○`
   - If a brighter style is needed, keep it continuous rather than mixing unrelated icons

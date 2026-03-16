@@ -15,7 +15,7 @@ This table answers the main question: which IP does each provider actually see?
 - `Risk`: score plus short risk word
 - `Clean`: short cleanliness band
 - `Conf`: how consistently multiple IP-intel sources agreed on the high-level direction
-- `Bar`: compact progress-style cleanliness bar
+- `Rate`: compact progress-style cleanliness rate line
 
 ## How To Use It For OpenClaw
 
@@ -38,7 +38,7 @@ When the result is sent through Telegram or another chat surface:
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
 - Keep `Geo` compact in chat. Prefer a flag plus the highest-level useful geography/provider hint, such as `🇺🇸 AT&T`.
 - Do not paste long raw strings like `US Warrenville AT&T Enterprises, LLC` into narrow chat UIs.
-- Replace color-only meaning with compact text cues such as `Risk`, `Clean`, `Bar`, and a short confidence cue.
+- Replace color-only meaning with compact text cues such as `Risk`, `Clean`, `Rate`, and a short confidence cue.
 - Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
 - Group the report by tested path or port, but prefer a single shared code block when comparing multiple paths.
 - Collapse multiple low-level probes into the OpenClaw provider name the user actually sees in the model/auth menu.
@@ -56,7 +56,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Prefer one light emoji before the word
   - Example: `🌿 Very Clean`, `🌼 Clean`, `🍋 Fair`, `🌶️ Risky`, `🔥 Dirty`
 
-- `Bar`
+- `Rate`
   - Fixed-width 6-slot continuous progress bar
   - Prefer compact shapes such as `●●●●○○`
   - If emoji look bad in the target UI, keep using plain Unicode circles
