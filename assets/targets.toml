@@ -15,60 +15,72 @@
 
 [[targets]]
 name = "OpenAI OAuth"
+provider = "OpenAI"
 url = "https://auth.openai.com/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "OpenAI ChatGPT"
+provider = "OpenAI"
 url = "https://chatgpt.com/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "OpenAI Platform"
+provider = "OpenAI"
 url = "https://platform.openai.com/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Anthropic Console"
+provider = "Anthropic"
 url = "https://console.anthropic.com/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Anthropic Claude"
+provider = "Anthropic"
 url = "https://claude.ai/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "MiniMax Intl Web"
+provider = "MiniMax"
 url = "https://www.minimax.io/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "MiniMax Intl Platform"
+provider = "MiniMax"
 url = "https://platform.minimax.io/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "xAI Grok"
+provider = "xAI (Grok)"
 url = "https://grok.com/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Mistral API"
+provider = "Mistral AI"
 url = "https://api.mistral.ai/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Mistral Chat"
+provider = "Mistral AI"
 url = "https://chat.mistral.ai/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Together AI"
+provider = "Together AI"
 url = "https://api.together.xyz/cdn-cgi/trace"
 type = "cloudflare_trace"
 
 [[targets]]
 name = "Microsoft Copilot"
+provider = "Copilot"
 url = "https://copilot.microsoft.com/cdn-cgi/trace"
 type = "cloudflare_trace"

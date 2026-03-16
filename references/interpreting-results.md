@@ -18,6 +18,7 @@ This table answers the main question: which IP does each provider actually see?
 
 ## How To Use It For OpenClaw
 
+- Test only the providers that are actually configured in OpenClaw for the current run.
 - If most or all provider targets show the same clean-looking IP, the path is probably suitable.
 - If providers split across different IPs, OpenClaw traffic is likely not leaving through one consistent path.
 - If the only observed IP scores as `Hosting`, `VPN`, or `Proxy`, assume the egress is not residential enough.

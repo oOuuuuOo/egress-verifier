@@ -974,6 +974,26 @@ def validate_port_text(port_text: str) -> str:
         raise ConnectorError(f"Proxy port out of range: {port_text}")
     return port_text
 
+
+def normalize_provider_label(value: str) -> str:
+    return str(value).strip().lower()
+
+
+def filter_targets_by_provider(
+    targets: List[Dict[str, Any]],
+    requested_providers: List[str],
+) -> List[Dict[str, Any]]:
+    if not requested_providers:
+        return targets
+
+    wanted = {normalize_provider_label(item) for item in requested_providers if str(item).strip()}
+    filtered = [
+        target
+        for target in targets
+        if normalize_provider_label(target.get("provider", target.get("name", ""))) in wanted
+    ]
+    return filtered
+
 async def analyze_ip(ip: str) -> Tuple[str, str, str]:
     """Queries multiple APIs to determine Geolocation, Score, and Attribute."""
     evidence: List[Tuple[str, int]] = []
@@ -1411,6 +1431,12 @@ async def main():
         default=None,
         help="Working directory for --bridge-command",
     )
+    parser.add_argument(
+        "--provider",
+        action="append",
+        default=[],
+        help="Restrict the run to one OpenClaw provider label from targets.toml. Repeatable.",
+    )
     args = parser.parse_args()
     
     config_path = Path(args.config)
@@ -1426,8 +1452,14 @@ async def main():
         sys.exit(1)
         
     targets = config.get("targets", [])
+    targets = filter_targets_by_provider(targets, args.provider)
     if not targets:
-        console.print("[yellow]Warning:[/] No targets found.")
+        if args.provider:
+            console.print(
+                f"[yellow]Warning:[/] No targets matched provider filter: {', '.join(args.provider)}"
+            )
+        else:
+            console.print("[yellow]Warning:[/] No targets found.")
 
     try:
         nodes = load_nodes_config(Path(args.nodes_config))

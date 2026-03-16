@@ -20,10 +20,11 @@ Use this skill to verify whether OpenClaw-facing traffic reaches official AI pro
 
 1. Decide the real network path OpenClaw uses.
    Usually this is `direct`, a local `http/socks` port, or a local proxy exposed by Clash/Mihomo.
-2. Run the wrapper script from `scripts/run_verifier.sh`.
-3. Read the first table as the per-provider observed exit IP.
-4. Read the rollup table as the IP-quality summary for unique exit IPs.
-5. When reporting results back to the user, preserve the verifier's richness:
+2. Determine which OpenClaw providers are actually configured right now.
+3. Run the wrapper script from `scripts/run_verifier.sh`, passing only those providers with repeated `--provider`.
+4. Read the first table as the per-provider observed exit IP.
+5. Read the rollup table as the IP-quality summary for unique exit IPs.
+6. When reporting results back to the user, preserve the verifier's richness:
    include exit IP, Geo, Profile, Score, Confidence, and the overall summary.
 
 ## Quick Start
@@ -46,6 +47,12 @@ Run through a full proxy URL:
 ./scripts/run_verifier.sh socks5://127.0.0.1:7891
 ```
 
+Run only the providers currently configured in OpenClaw:
+
+```bash
+./scripts/run_verifier.sh 7890 --provider OpenAI --provider Anthropic
+```
+
 If the host does not already have the verifier dependencies, create a local venv first:
 
 ```bash
@@ -66,6 +73,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 ## Rules
 
 - Prefer the same outbound path OpenClaw really uses.
+- Only test the providers currently configured in OpenClaw for this run. Do not default to the whole provider superset unless the user explicitly asks for a broad sweep.
 - Do not add provider targets that only prove reachability. Keep targets focused on real exit-IP reflection.
 - If a provider does not expose a stable official IP-reflection endpoint, leave it out rather than inventing a fake signal.
 - Preserve the existing output shape unless the user explicitly asks to redesign it.
@@ -98,6 +106,26 @@ When adding providers, only keep targets that satisfy all of the following:
 - Returns the caller's real observed IP at the target side
 
 If you need help interpreting the report, read `references/interpreting-results.md`.
+
+## Provider Filter
+
+`assets/targets.toml` is a provider superset, not a mandate to test everything every time.
+
+Use repeated `--provider` flags to match the actual OpenClaw provider set for the current run:
+
+```bash
+./scripts/run_verifier.sh direct --provider OpenAI --provider Anthropic --provider "xAI (Grok)"
+```
+
+Current provider labels in the bundled target file include:
+
+- `OpenAI`
+- `Anthropic`
+- `MiniMax`
+- `xAI (Grok)`
+- `Mistral AI`
+- `Together AI`
+- `Copilot`
 
 ## Reporting Template
 
