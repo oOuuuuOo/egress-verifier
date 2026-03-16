@@ -77,6 +77,105 @@ Test only the providers currently configured in OpenClaw:
 ./scripts/run_verifier.sh 7890 --provider OpenAI --provider Anthropic --provider "xAI (Grok)"
 ```
 
+## Example Results
+
+The examples below use fake data and masked IPs. They are only meant to show the reporting style and how to interpret different outcomes.
+
+### Example 1: One Stable, Usable Exit
+
+This is the happy path: all configured providers converge on one exit, and the profile looks acceptable for AI use.
+
+```text
+🌈 Result: all configured providers converged on one exit IPv6.
+
+IP: `2600:db8:1111:22::8`
+
+╭─ 🧪 [http://127.0.0.1:18080]
+│  Hits
+│  ├─ ⭐ OpenAI
+│  ├─ Anthropic
+│  ├─ MiniMax
+│  └─ Copilot
+│  Roll
+│  ├─ Geo  : 🇺🇸 ISP
+│  ├─ Tags : ISP, Business
+│  ├─ Risk : 74 Moderate
+│  ├─ Clean: 🌼 Clean
+│  ├─ Conf : 68% usable
+│  └─ Rate : ●●●◐○○
+╰──────────────
+
+🪄 Conclusion
+The configured providers are leaving through one consistent exit.
+This route looks generally usable for AI traffic.
+```
+
+### Example 2: Hosting/VPN-Looking Exit
+
+This is the case you usually want to catch before production use: the path works, but the final provider-side exit still looks like hosting or VPN infrastructure.
+
+```text
+🌈 Result: the configured providers converged on one non-residential exit.
+
+IP: `2001:db8:44:55::19`
+
+╭─ 🧪 [direct]
+│  Hits
+│  ├─ ⭐ OpenAI
+│  ├─ MiniMax
+│  └─ Copilot
+│  Roll
+│  ├─ Geo  : 🇳🇱 Hosting
+│  ├─ Tags : Hosting, VPN
+│  ├─ Risk : 33 High
+│  ├─ Clean: 🌶️ Risky
+│  ├─ Conf : 91% strong
+│  └─ Rate : ●◐○○○○
+╰──────────────
+
+🪄 Conclusion
+The route is stable, but the final exit still looks like hosting/VPN infrastructure.
+This is the kind of path that can be usable technically while still being risky for AI quality or account safety.
+```
+
+### Example 3: Split Exit Across Providers
+
+This is the "routing inconsistency" case: the path is not leaking through one clean route. Different providers are seeing different exits.
+
+```text
+🌈 Result: configured providers did not converge on one exit.
+
+╭─ 🧪 [socks5://127.0.0.1:11080]
+│  Hits
+│  ├─ ⭐ OpenAI         -> 203.0.113.24
+│  ├─ Anthropic        -> 203.0.113.24
+│  ├─ MiniMax          -> 198.51.100.17
+│  └─ Copilot          -> 198.51.100.17
+│  Roll
+│  ├─ Geo  : 🌍 Split
+│  ├─ Tags : Mixed paths
+│  ├─ Risk : 48 Elevated
+│  ├─ Clean: 🍋 Fair
+│  ├─ Conf : 62% usable
+│  └─ Rate : ●●◐○○○
+╰──────────────
+
+🪄 Conclusion
+The proxy path is not producing one consistent provider-side exit.
+Before trusting this route, fix the split and retest.
+```
+
+### Why These Examples Matter
+
+These examples map directly to common operational decisions:
+
+- Example 1:
+  this is the kind of result you want before daily OpenClaw use.
+- Example 2:
+  this is the kind of result that explains why a route may still feel "wrong" even if requests technically succeed.
+- Example 3:
+  this is the kind of result that reveals hidden routing mistakes, dual-stack surprises, or policy mismatches.
+
 ## What Is In This Repo
 
 - `SKILL.md`
