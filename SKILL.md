@@ -175,7 +175,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Risk : 75 Moderate
 │  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
-│  └─ Rate : ●●●●○○
+│  └─ Rate : ●●●◐○○
 ╰───────────────────────────────────────
 
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
@@ -193,7 +193,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Risk : 75 Moderate
 │  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
-│  └─ Rate : ●●●●○○
+│  └─ Rate : ●●●◐○○
 ╰───────────────────────────────────────
 ```
 
@@ -236,13 +236,13 @@ When terminal colors are unavailable, add these text replacements:
 
 - `Rate`
   - Render a fixed-width continuous 6-slot progress bar
-  - Prefer compact continuous symbols, for example: `●●●●○○`
+  - Prefer compact continuous symbols with half-step support, for example: `●●●◐○○`
   - If a brighter style is needed, keep it continuous rather than mixing unrelated icons
   - Example:
-    - `92` -> `●●●●●○`
-    - `75` -> `●●●●○○`
+    - `92` -> `●●●●◐○`
+    - `75` -> `●●●◐○○`
     - `68` -> `●●●○○○`
-    - `38` -> `●○○○○○`
+    - `38` -> `●◐○○○○`
     - `0` -> `○○○○○○`
 
 - `Conf`

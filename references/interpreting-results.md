@@ -58,7 +58,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Rate`
   - Fixed-width 6-slot continuous progress bar
-  - Prefer compact shapes such as `●●●●○○`
+  - Prefer compact shapes with half-step support such as `●●●◐○○`
   - If emoji look bad in the target UI, keep using plain Unicode circles
 
 - `Conf`
