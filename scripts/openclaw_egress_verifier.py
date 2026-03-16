@@ -944,7 +944,7 @@ async def test_proxy_protocol(port: str) -> str:
     try:
         # Try SOCKS5 first
         proxy_url = f"socks5://127.0.0.1:{port}"
-        async with httpx.AsyncClient(proxy=proxy_url, verify=False) as client:
+        async with httpx.AsyncClient(proxy=proxy_url, verify=False, trust_env=False) as client:
             resp = await client.get("http://1.1.1.1", timeout=3.0)
             if resp.status_code:
                 return proxy_url
@@ -954,7 +954,7 @@ async def test_proxy_protocol(port: str) -> str:
     try:
         # Try HTTP proxy
         proxy_url = f"http://127.0.0.1:{port}"
-        async with httpx.AsyncClient(proxy=proxy_url, verify=False) as client:
+        async with httpx.AsyncClient(proxy=proxy_url, verify=False, trust_env=False) as client:
             resp = await client.get("http://1.1.1.1", timeout=3.0)
             if resp.status_code:
                 return proxy_url
@@ -982,7 +982,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
     # Fire all APIs concurrently
     async def get_ip_api():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"http://ip-api.com/json/{ip}?fields=proxy,hosting,mobile,countryCode,city,isp")
                 if r.status_code == 200:
                     d = r.json()
@@ -1009,7 +1009,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_ipapi_is():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"https://api.ipapi.is/?q={ip}")
                 if r.status_code == 200:
                     d = r.json()
@@ -1043,7 +1043,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
         
     async def get_ipwhois():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"https://ipwho.is/{ip}")
                 if r.status_code == 200: return r.json()
         except Exception: pass
@@ -1051,7 +1051,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_ipinfo():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"https://ipinfo.io/{ip}/json")
                 if r.status_code == 200:
                     d = r.json()
@@ -1068,7 +1068,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_ipapi_co():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"https://ipapi.co/{ip}/json/")
                 if r.status_code == 200:
                     d = r.json()
@@ -1087,7 +1087,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_ip2location():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=6.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=6.0, trust_env=False) as c:
                 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
                 r = await c.get(f"https://www.ip2location.com/{ip}", headers=headers)
                 if r.status_code == 200:
@@ -1114,7 +1114,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_scamalytics():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"https://scamalytics.com/ip/{ip}", headers={"User-Agent": "Mozilla/5.0"})
                 if "Attention Required" in r.text or "Cloudflare" in r.text or r.status_code == 403:
                     return None
@@ -1133,7 +1133,7 @@ async def analyze_ip(ip: str) -> Tuple[str, str, str]:
 
     async def get_proxycheck():
         try:
-            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0) as c:
+            async with httpx.AsyncClient(verify=False, follow_redirects=True, timeout=5.0, trust_env=False) as c:
                 r = await c.get(f"http://proxycheck.io/v2/{ip}?vpn=1&asn=1")
                 if r.status_code == 200:
                     d = r.json()
@@ -1499,7 +1499,7 @@ async def main():
         return table
 
     try:
-        async with httpx.AsyncClient(proxy=proxies, verify=False, follow_redirects=True) as client:
+        async with httpx.AsyncClient(proxy=proxies, verify=False, follow_redirects=True, trust_env=False) as client:
             with Live(generate_table(), console=console, refresh_per_second=4) as live:
                 tasks = {
                     asyncio.create_task(fetch_target(client, t, ip_analysis_cache)): idx
