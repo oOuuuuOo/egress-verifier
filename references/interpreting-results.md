@@ -47,9 +47,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Example: `Very Clean`, `Clean`, `Fair`, `Borderline`, `Risky`, `Dirty`
 
 - `Signal Bar`
-  - Fixed-width 8-slot chat-friendly bar
-  - Prefer cute but intuitive markers, for example: `🍔🍔🍔🍔🍔🍟▫️▫️`
-  - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●●○○○`
+  - Fixed-width 6-slot chat-friendly bar
+  - Prefer cute but intuitive markers, for example: `🍔🍔🍔🍔🍟▫️`
+  - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●○○`
   - Mid-range scores should not look too healthy. Keep the burger count conservative for `60-74` style results.
 
 - `Confidence Cue`
