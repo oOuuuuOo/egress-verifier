@@ -1,0 +1,74 @@
+# OpenClaw-aligned provider probes.
+#
+# Design notes:
+# - We do not require every target to use /cdn-cgi/trace, but today the most
+#   stable public IP-echo probes on official provider domains are still
+#   Cloudflare trace endpoints.
+# - This file prefers channels that map to real OpenClaw providers and can
+#   return the caller IP without authentication.
+# - Providers that do not currently expose a reliable public IP-echo probe on
+#   an official domain are intentionally left out for now, rather than adding
+#   noisy targets that only look complete on paper.
+# - Some providers split mainland China vs international routing. MiniMax is
+#   one confirmed example in official docs, so the current MiniMax entries are
+#   labeled as Intl-only until a CN-region probe meets the same bar.
+
+[[targets]]
+name = "OpenAI OAuth"
+url = "https://auth.openai.com/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "OpenAI ChatGPT"
+url = "https://chatgpt.com/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "OpenAI Platform"
+url = "https://platform.openai.com/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Anthropic Console"
+url = "https://console.anthropic.com/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Anthropic Claude"
+url = "https://claude.ai/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "MiniMax Intl Web"
+url = "https://www.minimax.io/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "MiniMax Intl Platform"
+url = "https://platform.minimax.io/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "xAI Grok"
+url = "https://grok.com/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Mistral API"
+url = "https://api.mistral.ai/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Mistral Chat"
+url = "https://chat.mistral.ai/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Together AI"
+url = "https://api.together.xyz/cdn-cgi/trace"
+type = "cloudflare_trace"
+
+[[targets]]
+name = "Microsoft Copilot"
+url = "https://copilot.microsoft.com/cdn-cgi/trace"
+type = "cloudflare_trace"

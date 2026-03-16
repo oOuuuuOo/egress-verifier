@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenClaw Egress Verifier"
+  short_description: "Verify OpenClaw model egress IP cleanliness"
+  default_prompt: "Use $openclaw-egress-verifier to verify whether OpenClaw traffic exits through a clean residential-looking IP."

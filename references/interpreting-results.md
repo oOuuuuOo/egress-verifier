@@ -1,0 +1,23 @@
+# Interpreting Results
+
+## First Table
+
+- `Target Name`: official provider endpoint being probed
+- `Exit IP / Result`: the IP observed by that target
+
+This table answers the main question: which IP does each provider actually see?
+
+## Rollup Table
+
+- `Exit IP`: unique observed IP
+- `Profile`: combined IP-intel labels, for example `Hosting, VPN, ISP`
+- `Score`: `0-100`, where higher is cleaner and lower risk
+- `Confidence`: how consistently multiple IP-intel sources agreed on the high-level direction
+- `Purity`: visual bar where greener is cleaner and redder is dirtier
+
+## How To Use It For OpenClaw
+
+- If most or all provider targets show the same clean-looking IP, the path is probably suitable.
+- If providers split across different IPs, OpenClaw traffic is likely not leaving through one consistent path.
+- If the only observed IP scores as `Hosting`, `VPN`, or `Proxy`, assume the egress is not residential enough.
+- Use the same direct/proxy path OpenClaw actually uses, otherwise the result is not representative.
