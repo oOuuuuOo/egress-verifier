@@ -10,6 +10,7 @@ This table answers the main question: which IP does each provider actually see?
 ## Rollup Table
 
 - `Exit IP`: unique observed IP
+- `Geo`: country/city/ISP style location summary returned by the verifier
 - `Profile`: combined IP-intel labels, for example `Hosting, VPN, ISP`
 - `Score`: `0-100`, where higher is cleaner and lower risk
 - `Confidence`: how consistently multiple IP-intel sources agreed on the high-level direction
@@ -21,3 +22,12 @@ This table answers the main question: which IP does each provider actually see?
 - If providers split across different IPs, OpenClaw traffic is likely not leaving through one consistent path.
 - If the only observed IP scores as `Hosting`, `VPN`, or `Proxy`, assume the egress is not residential enough.
 - Use the same direct/proxy path OpenClaw actually uses, otherwise the result is not representative.
+
+## Chat Rendering Guidance
+
+When the result is sent through Telegram or another chat surface:
+
+- Keep the two-section structure from the CLI mental model.
+- Render compact Markdown/ASCII tables in code blocks.
+- Do not collapse the rollup into plain bullets if a table can fit.
+- Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
