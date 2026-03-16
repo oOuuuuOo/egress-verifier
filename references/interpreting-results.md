@@ -82,6 +82,15 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Prefer user-facing provider names such as `OpenAI`, `Anthropic`, `MiniMax`, `xAI (Grok)`, `Mistral AI`, `Together AI`, and `Copilot`
   - Avoid raw probe labels such as `OpenAI OAuth`, `ChatGPT`, `Platform`, `Anthropic Console`, or `Mistral API` in the final chat summary
 
+- `Conclusion Discipline`
+  - Keep conclusion text compact
+  - Emphasize the detection result itself over narrative explanation
+  - Good conclusion elements:
+    - final exit IP
+    - profile/risk direction
+    - same-path or split-path finding
+  - Avoid long retrospective wording unless the user explicitly asks for debugging detail
+
 These should supplement, not replace:
 
 - `Geo`

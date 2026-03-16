@@ -183,6 +183,27 @@ Preferred chat rendering:
 🪄 Conclusion
 当前各测试路径的结果一致，说明这些本地链路当前落到同一个出口。
 
+## Conclusion Style
+
+- Keep the conclusion short and detection-first.
+- Prefer 2 to 4 short lines, or 1 very short paragraph.
+- Focus on:
+  - final observed exit IP
+  - profile/risk direction
+  - whether tested paths matched or differed
+- Only mention root-cause explanation if it is truly useful and can fit in one short sentence.
+- Avoid long retrospective narration such as "this time it became reasonable because..." unless the user explicitly asks for debugging context.
+
+Preferred conclusion pattern:
+
+```text
+🪄 Conclusion
+
+direct 的真实落地 IP 是 2607:9d00:2000:55::2。
+该出口当前呈现 Hosting, VPN 特征。
+这次 direct 与代理结果已分离，说明当前检测链路有效。
+```
+
 ## Chat Signal Mapping
 
 When terminal colors are unavailable, add these text replacements:
