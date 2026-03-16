@@ -102,7 +102,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - If multiple internal probes belong to one provider, collapse them into the single provider name the OpenClaw user expects.
 - Keep `Geo` very short in chat output. Prefer `flag + highest-level useful geography/provider hint`, for example `🇺🇸 AT&T`.
 - Avoid long raw strings such as full legal entity names, repeated country codes, or full ASN labels in the chat rollup.
-- Prefer short rollup field names in chat. Use `Geo`, `Tags`, `Risk`, `Conf`, and `Bar`.
+- Prefer short rollup field names in chat. Use `Geo`, `Tags`, `Risk`, `Clean`, `Conf`, and `Bar`.
 
 ## Updating Targets
 
@@ -173,6 +173,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Geo  : 🇺🇸 AT&T
 │  ├─ Tags : ISP, Business
 │  ├─ Risk : 75 Moderate
+│  ├─ Clean: Fair
 │  ├─ Conf : 59% mixed
 │  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
@@ -190,6 +191,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Geo  : 🇺🇸 AT&T
 │  ├─ Tags : ISP, Business
 │  ├─ Risk : 75 Moderate
+│  ├─ Clean: Fair
 │  ├─ Conf : 59% mixed
 │  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
@@ -226,6 +228,10 @@ When terminal colors are unavailable, add these text replacements:
 - `Risk`
   - Short risk label derived from score
   - Example: `92 Low`, `75 Moderate`, `38 High`
+
+- `Clean`
+  - Short cleanliness band derived from score
+  - Example: `Very Clean`, `Clean`, `Fair`, `Risky`, `Dirty`
 
 - `Bar`
   - Render a fixed-width continuous 6-slot progress bar
