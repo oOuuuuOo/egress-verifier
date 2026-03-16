@@ -157,7 +157,7 @@ Preferred chat rendering:
 │  Score       : 75 Moderate Risk
 │  Confidence  : 59% mixed
 │  Cleanliness : 🌼 Clean
-│  Signal Bar  : 🍔🍟🍟🍟▫️▫️
+│  Signal Bar  : 🥗🍙🍙🍙▫️▫️
 ╰───────────────────────────────────────
 
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
@@ -176,7 +176,7 @@ Preferred chat rendering:
 │  Score       : 75 Moderate Risk
 │  Confidence  : 59% mixed
 │  Cleanliness : 🌼 Clean
-│  Signal Bar  : 🍔🍟🍟🍟▫️▫️
+│  Signal Bar  : 🥗🍙🍙🍙▫️▫️
 ╰───────────────────────────────────────
 ```
 
@@ -198,20 +198,20 @@ When terminal colors are unavailable, add these text replacements:
 - `Signal Bar`
   - Render a fixed-width 6-slot bar
   - Prefer lively but intuitive symbols in chat:
-    - premium clean segment: `🍔`
-    - normal clean segment: `🍟`
+    - premium clean segment: `🥗`
+    - normal clean segment: `🍙`
     - remaining/empty slots: `▫️`
   - If emoji rendering is poor, fall back to Unicode circles:
     - retained cleanliness: `●`
     - remaining/empty slots: `○`
   - Example:
-    - `92` -> `🍔🍔🍟🍟🍟▫️`
-    - `75` -> `🍔🍟🍟🍟▫️▫️`
-    - `68` -> `🍔🍟🍟▫️▫️▫️`
-    - `38` -> `🍟▫️▫️▫️▫️▫️`
+    - `92` -> `🥗🥗🍙🍙🍙▫️`
+    - `75` -> `🥗🍙🍙🍙▫️▫️`
+    - `68` -> `🥗🍙🍙▫️▫️▫️`
+    - `38` -> `🍙▫️▫️▫️▫️▫️`
     - `0` -> `▫️▫️▫️▫️▫️▫️`
 
-  - Keep `🍔` sparse. It should feel like a premium highlight, not the dominant fill.
+  - Keep `🥗` sparse. It should feel like a premium highlight, not the dominant fill.
 
 - `Confidence Cue`
   - Append a short cue after confidence:

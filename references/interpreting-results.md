@@ -48,9 +48,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Signal Bar`
   - Fixed-width 6-slot chat-friendly bar
-  - Prefer a light hierarchy, for example: `🍔🍟🍟🍟▫️▫️`
+  - Prefer a light hierarchy, for example: `🥗🍙🍙🍙▫️▫️`
   - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●○○`
-  - `🍔` should stay sparse. Let `🍟` carry most mid-range positive weight so the bar does not look too heavy.
+  - `🥗` should stay sparse. Let `🍙` carry most mid-range positive weight so the bar does not look too heavy.
 
 - `Confidence Cue`
   - Short word after confidence to convey stability
