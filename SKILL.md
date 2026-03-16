@@ -78,6 +78,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Keep total wording tight. Avoid repeating the same verdict in the heading, summary, and conclusion.
 - Replace terminal-only visuals such as color and bar charts with compact text signals that still preserve reading feel.
 - Always add a short cleanliness band and a signal bar in chat output so the user can feel the result at a glance.
+- Prefer emoji or natural Unicode symbols over engineering-style placeholders such as `[####---]`.
 
 ## Updating Targets
 
@@ -124,7 +125,7 @@ Profile    : ISP, Business
 Score      : 75 Moderate Risk
 Confidence : 59%
 Cleanliness: Fair
-Signal Bar : [#######---]
+Signal Bar : 🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜
 ```
 
 Conclusion
@@ -145,13 +146,17 @@ When terminal colors are unavailable, add these text replacements:
 
 - `Signal Bar`
   - Render a fixed-width 10-slot bar
-  - Use `#` for retained cleanliness
-  - Use `-` for lost cleanliness
+  - Prefer emoji squares in chat:
+    - retained cleanliness: `🟩`
+    - lost cleanliness: `⬜`
+  - If emoji rendering is poor, fall back to Unicode circles:
+    - retained cleanliness: `●`
+    - lost cleanliness: `○`
   - Example:
-    - `92` -> `[#########-]`
-    - `75` -> `[#######---]`
-    - `38` -> `[####------]`
-    - `0` -> `[----------]`
+    - `92` -> `🟩🟩🟩🟩🟩🟩🟩🟩🟩⬜`
+    - `75` -> `🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜`
+    - `38` -> `🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜`
+    - `0` -> `⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜`
 
 - `Confidence Cue`
   - Append a short cue after confidence:

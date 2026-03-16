@@ -43,8 +43,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Example: `Very Clean`, `Clean`, `Fair`, `Borderline`, `Risky`, `Dirty`
 
 - `Signal Bar`
-  - Fixed-width 10-slot ASCII bar
-  - Example: `[#######---]`
+  - Fixed-width 10-slot chat-friendly bar
+  - Prefer emoji squares, for example: `🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜`
+  - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●●●●○○○`
 
 - `Confidence Cue`
   - Short word after confidence to convey stability
