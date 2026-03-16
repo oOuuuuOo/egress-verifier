@@ -45,7 +45,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Signal Bar`
   - Fixed-width 10-slot chat-friendly bar
-  - Prefer soft, fresh markers, for example: `🌿🌿🌿🌿🌿🌿🌿🍃🍃🍃`
+  - Prefer high-contrast but still friendly markers, for example: `💚💚💚💚💚💚💚🤍🤍🤍`
   - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●●●●○○○`
 
 - `Confidence Cue`
