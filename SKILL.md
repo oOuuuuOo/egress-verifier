@@ -173,7 +173,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Geo  : 🇺🇸 AT&T
 │  ├─ Tags : ISP, Business
 │  ├─ Risk : 75 Moderate
-│  ├─ Clean: Fair
+│  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
 │  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
@@ -191,7 +191,7 @@ IP: `2600:1700:...:72f0`
 │  ├─ Geo  : 🇺🇸 AT&T
 │  ├─ Tags : ISP, Business
 │  ├─ Risk : 75 Moderate
-│  ├─ Clean: Fair
+│  ├─ Clean: 🌼 Fair
 │  ├─ Conf : 59% mixed
 │  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
@@ -231,7 +231,8 @@ When terminal colors are unavailable, add these text replacements:
 
 - `Clean`
   - Short cleanliness band derived from score
-  - Example: `Very Clean`, `Clean`, `Fair`, `Risky`, `Dirty`
+  - Add one light emoji before the word for faster reading
+  - Example: `🌿 Very Clean`, `🌼 Clean`, `🍋 Fair`, `🌶️ Risky`, `🔥 Dirty`
 
 - `Bar`
   - Render a fixed-width continuous 6-slot progress bar

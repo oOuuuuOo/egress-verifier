@@ -53,7 +53,8 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Clean`
   - Short cleanliness band
-  - Example: `Very Clean`, `Clean`, `Fair`, `Risky`, `Dirty`
+  - Prefer one light emoji before the word
+  - Example: `🌿 Very Clean`, `🌼 Clean`, `🍋 Fair`, `🌶️ Risky`, `🔥 Dirty`
 
 - `Bar`
   - Fixed-width 6-slot continuous progress bar
