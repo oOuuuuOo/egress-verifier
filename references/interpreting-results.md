@@ -35,7 +35,7 @@ When the result is sent through Telegram or another chat surface:
 - Group repeated targets under the same IP instead of printing the same IP on every line.
 - Use aligned key-value lines for the rollup if a full table would wrap.
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
-- Keep `Geo` compact in chat. Prefer a flag plus the shortest useful place/provider hint, such as `🇺🇸 AT&T` or `🇺🇸 Warrenville · AT&T`.
+- Keep `Geo` compact in chat. Prefer a flag plus the highest-level useful geography/provider hint, such as `🇺🇸 AT&T`.
 - Do not paste long raw strings like `US Warrenville AT&T Enterprises, LLC` into narrow chat UIs.
 - Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
 - Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
