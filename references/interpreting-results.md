@@ -33,7 +33,7 @@ When the result is sent through Telegram or another chat surface:
 - Use aligned key-value lines for the rollup if a full table would wrap.
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
 - Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
-- Add light emoji anchors and tree glyphs so the message is easier to scan in Telegram.
+- Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
 
 ## Text Replacements For Visual Signals
 
@@ -45,7 +45,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Signal Bar`
   - Fixed-width 10-slot chat-friendly bar
-  - Prefer emoji squares, for example: `🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜`
+  - Prefer soft, bright circle markers, for example: `🟢🟢🟢🟢🟢🟢🟢⚪⚪⚪`
   - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●●●●○○○`
 
 - `Confidence Cue`
@@ -53,7 +53,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Example: `59% mixed`, `88% strong`
 
 - `Emoji Anchors`
-  - Use a small number of section markers such as `✅`, `📍`, `📊`, `🧾`
+  - Use a small number of section markers such as `🌈`, `🧭`, `🍃`, `🪄`
   - Do not spam emojis on every line
 
 - `Grouped Tree Layout`
@@ -61,6 +61,10 @@ Use these when the original CLI color/purity feel would otherwise be lost:
     - source label like `[direct]` or `[http://127.0.0.1:7890]`
     - one IP line
     - child target lines using `├─` and `└─`
+
+- `Active Channel Marker`
+  - When the current OpenClaw provider is known, prefix that provider line with `⭐`
+  - This is preferred over Markdown bold inside code blocks, since bold will not render there
 
 These should supplement, not replace:
 

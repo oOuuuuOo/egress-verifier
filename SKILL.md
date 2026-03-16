@@ -79,8 +79,9 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Replace terminal-only visuals such as color and bar charts with compact text signals that still preserve reading feel.
 - Always add a short cleanliness band and a signal bar in chat output so the user can feel the result at a glance.
 - Prefer emoji or natural Unicode symbols over engineering-style placeholders such as `[####---]`.
-- Use a small number of section emojis and line-prefix markers to improve scanability.
+- Use a small number of bright, friendly section emojis and line-prefix markers to improve scanability.
 - Do not rely on real text color in chat. Simulate emphasis with emoji, spacing, and concise labels.
+- When the currently configured OpenClaw provider/channel is known, mark it explicitly inside the grouped list.
 
 ## Updating Targets
 
@@ -105,13 +106,13 @@ When OpenClaw reports results in chat, use this structure:
 Preferred chat rendering:
 
 ```text
-✅ Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
+🌈 Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
-📍 Per-target exit IPs
+🧭 Per-target exit IPs
 ```text
 [direct]
 └─ 2600:1700:...:72f0
-   ├─ OpenAI OAuth / ChatGPT / Platform
+   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
    ├─ Anthropic Console / Claude
    ├─ MiniMax Intl Web / Platform
    ├─ xAI Grok
@@ -120,18 +121,18 @@ Preferred chat rendering:
    └─ Microsoft Copilot
 ```
 
-📊 Exit IP rollup
+🍃 Exit IP rollup
 ```text
 IP          : 2600:1700:...:72f0
 Geo         : US Warrenville AT&T Enterprises, LLC
 Profile     : ISP, Business
 Score       : 75 Moderate Risk
 Confidence  : 59% mixed
-Cleanliness : 🟡 Clean
-Signal Bar  : 🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜
+Cleanliness : 🌼 Clean
+Signal Bar  : 🟢🟢🟢🟢🟢🟢🟢⚪⚪⚪
 ```
 
-🧾 Conclusion
+🪄 Conclusion
 当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
 ```
 
@@ -176,21 +177,30 @@ Confidence : 59% mixed
 
 - `Section Emojis`
   - Use them sparingly:
-    - `✅` result
-    - `📍` per-target section
-    - `📊` rollup section
-    - `🧾` conclusion
+    - `🌈` result
+    - `🧭` per-target section
+    - `🍃` rollup section
+    - `🪄` conclusion
 
 - `Cleanliness Emoji`
   - Add a small severity cue before the cleanliness word:
-    - `🟢 Very Clean`
-    - `🟢 Clean`
-    - `🟡 Fair`
+    - `🌿 Very Clean`
+    - `🌼 Clean`
+    - `🍋 Fair`
     - `🟠 Borderline`
-    - `🔴 Risky`
-    - `🔴 Dirty`
+    - `🌶️ Risky`
+    - `🔥 Dirty`
 
 - `Tree Layout`
   - For repeated IP groups, use lightweight tree glyphs:
     - `└─`, `├─`
   - This makes sections easier to scan than flat wrapped lines.
+
+- `Active Channel Marker`
+  - If the current OpenClaw model/auth provider is known, mark that line with `⭐`
+  - Keep only one primary active marker unless the user is deliberately testing multiple active providers
+  - Example:
+
+```text
+   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
+```
