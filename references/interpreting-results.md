@@ -28,6 +28,7 @@ This table answers the main question: which IP does each provider actually see?
 When the result is sent through Telegram or another chat surface:
 
 - Keep the two-section structure from the CLI mental model.
-- Render compact Markdown/ASCII tables in code blocks.
-- Do not collapse the rollup into plain bullets if a table can fit.
+- Prefer compact grouped blocks over wide pipe tables when the UI is narrow.
+- Group repeated targets under the same IP instead of printing the same IP on every line.
+- Use aligned key-value lines for the rollup if a full table would wrap.
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.

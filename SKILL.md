@@ -73,6 +73,9 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - For chat surfaces such as Telegram, prefer a compact ASCII/Markdown table inside a code block instead of loose bullets.
 - Keep the content rich, but mirror the CLI mental model:
   one section for per-target IPs, one section for unique IP rollup, then a short conclusion.
+- In narrow chat UIs, do not render wide pipe tables that wrap badly. Prefer compact grouped lists in code blocks.
+- If many targets share the same IP, group them under that IP instead of repeating the same long IPv6 on every line.
+- Keep total wording tight. Avoid repeating the same verdict in the heading, summary, and conclusion.
 
 ## Updating Targets
 
@@ -90,28 +93,36 @@ If you need help interpreting the report, read `references/interpreting-results.
 When OpenClaw reports results in chat, use this structure:
 
 1. Short one-line finding.
-2. A code block table for per-target exit IPs.
-3. A code block table for unique exit-IP rollup.
+2. A compact code block for grouped per-target exit IPs.
+3. A compact code block for unique exit-IP rollup.
 4. A short conclusion in prose.
 
 Preferred chat rendering:
 
 ```text
-Result: HTTP and SOCKS show the same clean-looking exit path.
+Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
 Per-target exit IPs
-| Target              | Exit IP / Result                        |
-|---------------------|-----------------------------------------|
-| OpenAI OAuth        | 2600:1700:...                           |
-| Anthropic Claude    | 2600:1700:...                           |
-| Mistral API         | 2600:1700:...                           |
+```text
+2600:1700:...:72f0
+  OpenAI OAuth / ChatGPT / Platform
+  Anthropic Console / Claude
+  MiniMax Intl Web / Platform
+  xAI Grok
+  Mistral API / Chat
+  Together AI
+  Microsoft Copilot
+```
 
 Exit IP rollup
-| Exit IP             | Geo                         | Profile        | Score              | Confidence |
-|---------------------|-----------------------------|----------------|--------------------|------------|
-| 2600:1700:...       | US Warrenville AT&T ...     | ISP, Business  | 75 Moderate Risk   | 59%        |
+```text
+IP         : 2600:1700:...:72f0
+Geo        : US Warrenville AT&T Enterprises, LLC
+Profile    : ISP, Business
+Score      : 75 Moderate Risk
+Confidence : 59%
+```
 
 Conclusion
-The current OpenClaw path is consistently reaching official targets with the same IPv6.
-The profile leans ISP-style rather than obvious hosting/VPN infrastructure, but still carries some business signal.
+当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
 ```
