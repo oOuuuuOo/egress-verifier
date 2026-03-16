@@ -18,7 +18,8 @@ This table answers the main question: which IP does each provider actually see?
 
 ## How To Use It For OpenClaw
 
-- Test only the providers that are actually configured in OpenClaw for the current run.
+- Test the full set of providers that are currently configured and available in OpenClaw for the current run.
+- Do not silently narrow the check to only the currently active provider unless the user explicitly requests an active-only test.
 - If some configured providers have no measurable official target, list them as untested.
 - If most or all provider targets show the same clean-looking IP, the path is probably suitable.
 - If providers split across different IPs, OpenClaw traffic is likely not leaving through one consistent path.

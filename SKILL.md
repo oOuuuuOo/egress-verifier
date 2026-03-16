@@ -20,8 +20,8 @@ Use this skill to verify whether OpenClaw-facing traffic reaches official AI pro
 
 1. Decide the real network path OpenClaw uses.
    Usually this is `direct`, a local `http/socks` port, or a local proxy exposed by Clash/Mihomo.
-2. Determine which OpenClaw providers are actually configured right now.
-3. Run the wrapper script from `scripts/run_verifier.sh`, passing only those providers with repeated `--provider`.
+2. Determine which OpenClaw providers are currently configured and available in this workspace.
+3. Run the wrapper script from `scripts/run_verifier.sh`, passing all of those configured providers with repeated `--provider`.
 4. Read the first table as the per-provider observed exit IP.
 5. Read the rollup table as the IP-quality summary for unique exit IPs.
 6. When reporting results back to the user, preserve the verifier's richness:
@@ -47,7 +47,7 @@ Run through a full proxy URL:
 ./scripts/run_verifier.sh socks5://127.0.0.1:7891
 ```
 
-Run only the providers currently configured in OpenClaw:
+Run all providers currently configured in OpenClaw:
 
 ```bash
 ./scripts/run_verifier.sh 7890 --provider OpenAI --provider Anthropic
@@ -73,7 +73,9 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 ## Rules
 
 - Prefer the same outbound path OpenClaw really uses.
-- Only test the providers currently configured in OpenClaw for this run. Do not default to the whole provider superset unless the user explicitly asks for a broad sweep.
+- Test the full set of providers currently configured and available in OpenClaw for this run.
+- Do not limit the run to only the currently selected or currently active provider unless the user explicitly asks for that narrower check.
+- Do not default to the whole provider superset unless the user explicitly asks for a broad sweep.
 - If OpenClaw has configured providers that do not exist in the bundled measurable target set, do not silently drop them. Report them as untested.
 - Do not add provider targets that only prove reachability. Keep targets focused on real exit-IP reflection.
 - If a provider does not expose a stable official IP-reflection endpoint, leave it out rather than inventing a fake signal.
@@ -112,7 +114,7 @@ If you need help interpreting the report, read `references/interpreting-results.
 
 `assets/targets.toml` is a provider superset, not a mandate to test everything every time.
 
-Use repeated `--provider` flags to match the actual OpenClaw provider set for the current run:
+Use repeated `--provider` flags to match the full OpenClaw provider set currently configured for the current run:
 
 ```bash
 ./scripts/run_verifier.sh direct --provider OpenAI --provider Anthropic --provider "xAI (Grok)"
@@ -129,6 +131,12 @@ Current provider labels in the bundled target file include:
 - `Copilot`
 
 If a requested provider has no measurable target in `assets/targets.toml`, it should appear in the final report as `Untested providers` rather than being silently omitted.
+
+Important:
+
+- `configured providers` means all providers currently available in the user's OpenClaw configuration for this workspace/session.
+- It does not mean only the single provider currently selected in the UI.
+- If OpenClaw has 6 configured providers and only 1 is currently active, the default verification scope should still include all 6 configured providers unless the user asks for active-only behavior.
 
 ## Reporting Template
 
