@@ -45,7 +45,7 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 
 - `Signal Bar`
   - Fixed-width 10-slot chat-friendly bar
-  - Prefer soft, bright circle markers, for example: `🟢🟢🟢🟢🟢🟢🟢⚪⚪⚪`
+  - Prefer soft, fresh markers, for example: `🌿🌿🌿🌿🌿🌿🌿🍃🍃🍃`
   - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●●●●○○○`
 
 - `Confidence Cue`
@@ -61,6 +61,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
     - source label like `[direct]` or `[http://127.0.0.1:7890]`
     - one IP line
     - child target lines using `├─` and `└─`
+
+- `Light Divider`
+  - A single divider line near the top of each code block can make the message feel more polished
 
 - `Active Channel Marker`
   - When the current OpenClaw provider is known, prefix that provider line with `⭐`

@@ -108,8 +108,7 @@ Preferred chat rendering:
 ```text
 🌈 Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
-🧭 Per-target exit IPs
-```text
+──────── 🧭 Per-target exit IPs ────────
 [direct]
 └─ 2600:1700:...:72f0
    ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
@@ -119,18 +118,16 @@ Preferred chat rendering:
    ├─ Mistral API / Chat
    ├─ Together AI
    └─ Microsoft Copilot
-```
 
-🍃 Exit IP rollup
-```text
+──────── 🍃 Exit IP rollup ────────
 IP          : 2600:1700:...:72f0
 Geo         : US Warrenville AT&T Enterprises, LLC
 Profile     : ISP, Business
 Score       : 75 Moderate Risk
 Confidence  : 59% mixed
 Cleanliness : 🌼 Clean
-Signal Bar  : 🟢🟢🟢🟢🟢🟢🟢⚪⚪⚪
-```
+Signal Bar  : 🌿🌿🌿🌿🌿🌿🌿🍃🍃🍃
+Legend      : 🌿 retained  🍃 weakened
 
 🪄 Conclusion
 当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
@@ -150,17 +147,17 @@ When terminal colors are unavailable, add these text replacements:
 
 - `Signal Bar`
   - Render a fixed-width 10-slot bar
-  - Prefer emoji squares in chat:
-    - retained cleanliness: `🟩`
-    - lost cleanliness: `⬜`
+  - Prefer soft, fresh symbols in chat:
+    - retained cleanliness: `🌿`
+    - weakened slots: `🍃`
   - If emoji rendering is poor, fall back to Unicode circles:
     - retained cleanliness: `●`
-    - lost cleanliness: `○`
+    - weakened slots: `○`
   - Example:
-    - `92` -> `🟩🟩🟩🟩🟩🟩🟩🟩🟩⬜`
-    - `75` -> `🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜`
-    - `38` -> `🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜`
-    - `0` -> `⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜`
+    - `92` -> `🌿🌿🌿🌿🌿🌿🌿🌿🌿🍃`
+    - `75` -> `🌿🌿🌿🌿🌿🌿🌿🍃🍃🍃`
+    - `38` -> `🌿🌿🌿🌿🍃🍃🍃🍃🍃🍃`
+    - `0` -> `🍃🍃🍃🍃🍃🍃🍃🍃🍃🍃`
 
 - `Confidence Cue`
   - Append a short cue after confidence:
@@ -195,6 +192,11 @@ Confidence : 59% mixed
   - For repeated IP groups, use lightweight tree glyphs:
     - `└─`, `├─`
   - This makes sections easier to scan than flat wrapped lines.
+
+- `Light Divider`
+  - One short divider line inside each code block helps chunk the message without becoming noisy.
+  - Example:
+    - `──────── 🧭 Per-target exit IPs ────────`
 
 - `Active Channel Marker`
   - If the current OpenClaw model/auth provider is known, mark that line with `⭐`
