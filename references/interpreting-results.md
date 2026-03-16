@@ -10,11 +10,11 @@ This table answers the main question: which IP does each provider actually see?
 ## Rollup Table
 
 - `Exit IP`: unique observed IP
-- `Geo`: country/city/ISP style location summary returned by the verifier
-- `Profile`: combined IP-intel labels, for example `Hosting, VPN, ISP`
-- `Score`: `0-100`, where higher is cleaner and lower risk
-- `Confidence`: how consistently multiple IP-intel sources agreed on the high-level direction
-- `Purity`: visual bar where greener is cleaner and redder is dirtier
+- `Geo`: short geo/provider hint for chat, for example `🇺🇸 AT&T`
+- `Tags`: combined IP-intel labels, for example `Hosting, VPN, ISP`
+- `Risk`: score plus short risk word
+- `Conf`: how consistently multiple IP-intel sources agreed on the high-level direction
+- `Bar`: compact progress-style cleanliness bar
 
 ## How To Use It For OpenClaw
 
@@ -37,7 +37,7 @@ When the result is sent through Telegram or another chat surface:
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
 - Keep `Geo` compact in chat. Prefer a flag plus the highest-level useful geography/provider hint, such as `🇺🇸 AT&T`.
 - Do not paste long raw strings like `US Warrenville AT&T Enterprises, LLC` into narrow chat UIs.
-- Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
+- Replace color-only meaning with compact text cues such as `Risk`, `Bar`, and a short confidence cue.
 - Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
 - Group the report by tested path or port, but prefer a single shared code block when comparing multiple paths.
 - Collapse multiple low-level probes into the OpenClaw provider name the user actually sees in the model/auth menu.
@@ -46,17 +46,16 @@ When the result is sent through Telegram or another chat surface:
 
 Use these when the original CLI color/purity feel would otherwise be lost:
 
-- `Cleanliness`
-  - Human label derived from score
-  - Example: `Very Clean`, `Clean`, `Fair`, `Borderline`, `Risky`, `Dirty`
+- `Risk`
+  - Short score-derived label
+  - Example: `Low`, `Moderate`, `High`
 
-- `Signal Bar`
-  - Fixed-width 6-slot chat-friendly bar
-  - Prefer a light hierarchy, for example: `🥗🍙🍙🍙▫️▫️`
-  - If emoji look bad in the target UI, fall back to Unicode circles, for example: `●●●●○○`
-  - `🥗` should stay sparse. Let `🍙` carry most mid-range positive weight so the bar does not look too heavy.
+- `Bar`
+  - Fixed-width 6-slot continuous progress bar
+  - Prefer compact shapes such as `●●●●○○`
+  - If emoji look bad in the target UI, keep using plain Unicode circles
 
-- `Confidence Cue`
+- `Conf`
   - Short word after confidence to convey stability
   - Example: `59% mixed`, `88% strong`
 
@@ -67,8 +66,8 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 - `Grouped Tree Layout`
   - Inside code blocks, prefer:
     - source label like `[direct]` or `[http://127.0.0.1:7890]`
-    - one IP line
     - child target lines using `├─` and `└─`
+  - If the main IP is long, place it on its own short line outside the code block
 
 - `Light Divider`
   - A single divider line near the top of each code block can make the message feel more polished
@@ -102,6 +101,6 @@ Use these when the original CLI color/purity feel would otherwise be lost:
 These should supplement, not replace:
 
 - `Geo`
-- `Profile`
-- `Score`
-- `Confidence`
+- `Tags`
+- `Risk`
+- `Conf`

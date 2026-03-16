@@ -86,6 +86,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
   one section for per-target IPs, one section for unique IP rollup, then a short conclusion.
 - In narrow chat UIs, do not render wide pipe tables that wrap badly. Prefer compact grouped lists in code blocks.
 - If many targets share the same IP, group them under that IP instead of repeating the same long IPv6 on every line.
+- When the main exit IP is long, prefer putting it on its own short line outside the code block.
 - Keep total wording tight. Avoid repeating the same verdict in the heading, summary, and conclusion.
 - Replace terminal-only visuals such as color and bar charts with compact text signals that still preserve reading feel.
 - Always add a short cleanliness band and a signal bar in chat output so the user can feel the result at a glance.
@@ -100,6 +101,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - If multiple internal probes belong to one provider, collapse them into the single provider name the OpenClaw user expects.
 - Keep `Geo` very short in chat output. Prefer `flag + highest-level useful geography/provider hint`, for example `🇺🇸 AT&T`.
 - Avoid long raw strings such as full legal entity names, repeated country codes, or full ASN labels in the chat rollup.
+- Prefer short rollup field names in chat. Use `Geo`, `Tags`, `Risk`, `Conf`, and `Bar`.
 
 ## Updating Targets
 
@@ -145,51 +147,50 @@ Important:
 When OpenClaw reports results in chat, use this structure:
 
 1. Short one-line finding.
-2. Prefer one compact shared code block for the whole report.
-3. Inside that block, separate each tested path with a decorated header and keep its hits+rollup together.
-4. A short conclusion in prose.
+2. Put the main observed exit IP on a short line before the code block when that reduces wrapping.
+3. Prefer one compact shared code block for the whole report.
+4. Inside that block, separate each tested path with a decorated header and keep its hits+rollup together.
+5. A short conclusion in prose.
 
 Preferred chat rendering:
 
 ```text
 🌈 Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
+IP: `2600:1700:...:72f0`
+
 ╭─ 🧪 [http://127.0.0.1:18080] ─────────
 │  🧭 Target hits
-│  └─ 2600:1700:...:72f0
-│     ├─ ⭐ OpenAI
-│     ├─ Anthropic
-│     ├─ MiniMax
-│     ├─ xAI (Grok)
-│     ├─ Mistral AI
-│     ├─ Together AI
-│     └─ Microsoft Copilot
+│  ├─ ⭐ OpenAI
+│  ├─ Anthropic
+│  ├─ MiniMax
+│  ├─ xAI (Grok)
+│  ├─ Mistral AI
+│  ├─ Together AI
+│  └─ Microsoft Copilot
 │  🍃 Rollup
-│  Geo         : 🇺🇸 AT&T
-│  Profile     : ISP, Business
-│  Score       : 75 Moderate Risk
-│  Confidence  : 59% mixed
-│  Cleanliness : 🌼 Clean
-│  Signal Bar  : 🥗🍙🍙🍙▫️▫️
+│  Geo  : 🇺🇸 AT&T
+│  Tags : ISP, Business
+│  Risk : 75 Moderate
+│  Conf : 59% mixed
+│  Bar  : ●●●●○○
 ╰───────────────────────────────────────
 
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
 │  🧭 Target hits
-│  └─ 2600:1700:...:72f0
-│     ├─ ⭐ OpenAI
-│     ├─ Anthropic
-│     ├─ MiniMax
-│     ├─ xAI (Grok)
-│     ├─ Mistral AI
-│     ├─ Together AI
-│     └─ Microsoft Copilot
+│  ├─ ⭐ OpenAI
+│  ├─ Anthropic
+│  ├─ MiniMax
+│  ├─ xAI (Grok)
+│  ├─ Mistral AI
+│  ├─ Together AI
+│  └─ Microsoft Copilot
 │  🍃 Rollup
-│  Geo         : 🇺🇸 AT&T
-│  Profile     : ISP, Business
-│  Score       : 75 Moderate Risk
-│  Confidence  : 59% mixed
-│  Cleanliness : 🌼 Clean
-│  Signal Bar  : 🥗🍙🍙🍙▫️▫️
+│  Geo  : 🇺🇸 AT&T
+│  Tags : ISP, Business
+│  Risk : 75 Moderate
+│  Conf : 59% mixed
+│  Bar  : ●●●●○○
 ╰───────────────────────────────────────
 ```
 
@@ -221,33 +222,22 @@ direct 的真实落地 IP 是 2607:9d00:2000:55::2。
 
 When terminal colors are unavailable, add these text replacements:
 
-- `Cleanliness`
-  - `90-100`: `Very Clean`
-  - `75-89`: `Clean`
-  - `60-74`: `Fair`
-  - `40-59`: `Borderline`
-  - `20-39`: `Risky`
-  - `0-19`: `Dirty`
+- `Risk`
+  - Short risk label derived from score
+  - Example: `92 Low`, `75 Moderate`, `38 High`
 
-- `Signal Bar`
-  - Render a fixed-width 6-slot bar
-  - Prefer lively but intuitive symbols in chat:
-    - premium clean segment: `🥗`
-    - normal clean segment: `🍙`
-    - remaining/empty slots: `▫️`
-  - If emoji rendering is poor, fall back to Unicode circles:
-    - retained cleanliness: `●`
-    - remaining/empty slots: `○`
+- `Bar`
+  - Render a fixed-width continuous 6-slot progress bar
+  - Prefer compact continuous symbols, for example: `●●●●○○`
+  - If a brighter style is needed, keep it continuous rather than mixing unrelated icons
   - Example:
-    - `92` -> `🥗🥗🍙🍙🍙▫️`
-    - `75` -> `🥗🍙🍙🍙▫️▫️`
-    - `68` -> `🥗🍙🍙▫️▫️▫️`
-    - `38` -> `🍙▫️▫️▫️▫️▫️`
-    - `0` -> `▫️▫️▫️▫️▫️▫️`
+    - `92` -> `●●●●●○`
+    - `75` -> `●●●●○○`
+    - `68` -> `●●●○○○`
+    - `38` -> `●○○○○○`
+    - `0` -> `○○○○○○`
 
-  - Keep `🥗` sparse. It should feel like a premium highlight, not the dominant fill.
-
-- `Confidence Cue`
+- `Conf`
   - Append a short cue after confidence:
     - `80-100`: `strong`
     - `60-79`: `usable`
@@ -257,7 +247,7 @@ When terminal colors are unavailable, add these text replacements:
 Preferred rollup line in chat:
 
 ```text
-Confidence : 59% mixed
+Conf : 59% mixed
 ```
 
 - `Section Emojis`
@@ -266,15 +256,6 @@ Confidence : 59% mixed
     - `🧭` per-target section
     - `🍃` rollup section
     - `🪄` conclusion
-
-- `Cleanliness Emoji`
-  - Add a small severity cue before the cleanliness word:
-    - `🌿 Very Clean`
-    - `🌼 Clean`
-    - `🍋 Fair`
-    - `🟠 Borderline`
-    - `🌶️ Risky`
-    - `🔥 Dirty`
 
 - `Tree Layout`
   - For repeated IP groups, use lightweight tree glyphs:
