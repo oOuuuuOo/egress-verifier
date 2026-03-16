@@ -83,6 +83,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - Keep target hits and rollup together for each tested path
   - Prefer one shared code block for the whole report
   - Separate paths with decorated headers instead of opening a new code block each time
+  - Keep the header and footer compact, for example:
+    - `╭─ 🧪 [http://127.0.0.1:18080]`
+    - `╰──────────────`
 
 - `Active Channel Marker`
   - When the current OpenClaw provider is known, prefix that provider line with `⭐`
