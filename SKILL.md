@@ -76,6 +76,8 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - In narrow chat UIs, do not render wide pipe tables that wrap badly. Prefer compact grouped lists in code blocks.
 - If many targets share the same IP, group them under that IP instead of repeating the same long IPv6 on every line.
 - Keep total wording tight. Avoid repeating the same verdict in the heading, summary, and conclusion.
+- Replace terminal-only visuals such as color and bar charts with compact text signals that still preserve reading feel.
+- Always add a short cleanliness band and a signal bar in chat output so the user can feel the result at a glance.
 
 ## Updating Targets
 
@@ -121,8 +123,45 @@ Geo        : US Warrenville AT&T Enterprises, LLC
 Profile    : ISP, Business
 Score      : 75 Moderate Risk
 Confidence : 59%
+Cleanliness: Fair
+Signal Bar : [#######---]
 ```
 
 Conclusion
 当前路径对已覆盖的官方目标呈现单一出口，整体更像 ISP/住宅侧，而不是明显机房/VPN 出口。
+```
+
+## Chat Signal Mapping
+
+When terminal colors are unavailable, add these text replacements:
+
+- `Cleanliness`
+  - `90-100`: `Very Clean`
+  - `75-89`: `Clean`
+  - `60-74`: `Fair`
+  - `40-59`: `Borderline`
+  - `20-39`: `Risky`
+  - `0-19`: `Dirty`
+
+- `Signal Bar`
+  - Render a fixed-width 10-slot bar
+  - Use `#` for retained cleanliness
+  - Use `-` for lost cleanliness
+  - Example:
+    - `92` -> `[#########-]`
+    - `75` -> `[#######---]`
+    - `38` -> `[####------]`
+    - `0` -> `[----------]`
+
+- `Confidence Cue`
+  - Append a short cue after confidence:
+    - `80-100`: `strong`
+    - `60-79`: `usable`
+    - `40-59`: `mixed`
+    - `0-39`: `weak`
+
+Preferred rollup line in chat:
+
+```text
+Confidence : 59% mixed
 ```

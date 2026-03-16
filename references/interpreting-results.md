@@ -32,3 +32,27 @@ When the result is sent through Telegram or another chat surface:
 - Group repeated targets under the same IP instead of printing the same IP on every line.
 - Use aligned key-value lines for the rollup if a full table would wrap.
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
+- Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
+
+## Text Replacements For Visual Signals
+
+Use these when the original CLI color/purity feel would otherwise be lost:
+
+- `Cleanliness`
+  - Human label derived from score
+  - Example: `Very Clean`, `Clean`, `Fair`, `Borderline`, `Risky`, `Dirty`
+
+- `Signal Bar`
+  - Fixed-width 10-slot ASCII bar
+  - Example: `[#######---]`
+
+- `Confidence Cue`
+  - Short word after confidence to convey stability
+  - Example: `59% mixed`, `88% strong`
+
+These should supplement, not replace:
+
+- `Geo`
+- `Profile`
+- `Score`
+- `Confidence`
