@@ -87,7 +87,7 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - In narrow chat UIs, do not render wide pipe tables that wrap badly. Prefer compact grouped lists in code blocks.
 - If many targets share the same IP, group them under that IP instead of repeating the same long IPv6 on every line.
 - When the main exit IP is long, prefer putting it on its own short line outside the code block.
-- Even if the main IP is shown outside the code block, keep a short `IP` line inside each path block so the path still has a visual anchor.
+- Keep the long exit IP outside the code block. Inside each path block, use section headers plus tree lines to preserve hierarchy without repeating the IP.
 - Keep total wording tight. Avoid repeating the same verdict in the heading, summary, and conclusion.
 - Replace terminal-only visuals such as color and bar charts with compact text signals that still preserve reading feel.
 - Always add a short cleanliness band and a signal bar in chat output so the user can feel the result at a glance.
@@ -161,7 +161,6 @@ Preferred chat rendering:
 IP: `2600:1700:...:72f0`
 
 ╭─ 🧪 [http://127.0.0.1:18080] ─────────
-│  IP   : 2600:1700:...:72f0
 │  Hits
 │  ├─ ⭐ OpenAI
 │  ├─ Anthropic
@@ -171,15 +170,14 @@ IP: `2600:1700:...:72f0`
 │  ├─ Together AI
 │  └─ Microsoft Copilot
 │  Roll
-│  Geo  : 🇺🇸 AT&T
-│  Tags : ISP, Business
-│  Risk : 75 Moderate
-│  Conf : 59% mixed
-│  Bar  : ●●●●○○
+│  ├─ Geo  : 🇺🇸 AT&T
+│  ├─ Tags : ISP, Business
+│  ├─ Risk : 75 Moderate
+│  ├─ Conf : 59% mixed
+│  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
 
 ╭─ 🧪 [socks5://127.0.0.1:11080] ──────
-│  IP   : 2600:1700:...:72f0
 │  Hits
 │  ├─ ⭐ OpenAI
 │  ├─ Anthropic
@@ -189,11 +187,11 @@ IP: `2600:1700:...:72f0`
 │  ├─ Together AI
 │  └─ Microsoft Copilot
 │  Roll
-│  Geo  : 🇺🇸 AT&T
-│  Tags : ISP, Business
-│  Risk : 75 Moderate
-│  Conf : 59% mixed
-│  Bar  : ●●●●○○
+│  ├─ Geo  : 🇺🇸 AT&T
+│  ├─ Tags : ISP, Business
+│  ├─ Risk : 75 Moderate
+│  ├─ Conf : 59% mixed
+│  └─ Bar  : ●●●●○○
 ╰───────────────────────────────────────
 ```
 
