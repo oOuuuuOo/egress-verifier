@@ -83,6 +83,8 @@ OPENCLAW_EGRESS_PYTHON=./venv/bin/python ./scripts/run_verifier.sh direct
 - Do not rely on real text color in chat. Simulate emphasis with emoji, spacing, and concise labels.
 - When the currently configured OpenClaw provider/channel is known, mark it explicitly inside the grouped list.
 - Group chat output by tested path or port. Each tested path should read like one self-contained block.
+- Prefer a single shared code block when multiple tested paths are being compared in one reply.
+- Distinguish each tested path header with decorative divider characters so the eye can jump between them quickly.
 
 ## Updating Targets
 
@@ -100,8 +102,8 @@ If you need help interpreting the report, read `references/interpreting-results.
 When OpenClaw reports results in chat, use this structure:
 
 1. Short one-line finding.
-2. One compact code block per tested path or port.
-3. Inside each block, include both grouped target hits and the rollup for that same path.
+2. Prefer one compact shared code block for the whole report.
+3. Inside that block, separate each tested path with a decorated header and keep its hits+rollup together.
 4. A short conclusion in prose.
 
 Preferred chat rendering:
@@ -109,41 +111,43 @@ Preferred chat rendering:
 ```text
 🌈 Result: HTTP 和 SOCKS 都落到同一个出口 IPv6。
 
-[http://127.0.0.1:18080]
-──────── 🧭 Target hits ────────
-└─ 2600:1700:...:72f0
-   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
-   ├─ Anthropic Console / Claude
-   ├─ MiniMax Intl Web / Platform
-   ├─ xAI Grok
-   ├─ Mistral API / Chat
-   ├─ Together AI
-   └─ Microsoft Copilot
-──────── 🍃 Rollup ────────
-Geo         : US Warrenville AT&T Enterprises, LLC
-Profile     : ISP, Business
-Score       : 75 Moderate Risk
-Confidence  : 59% mixed
-Cleanliness : 🌼 Clean
-Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
+╭─ 🧪 [http://127.0.0.1:18080] ─────────
+│  🧭 Target hits
+│  └─ 2600:1700:...:72f0
+│     ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
+│     ├─ Anthropic Console / Claude
+│     ├─ MiniMax Intl Web / Platform
+│     ├─ xAI Grok
+│     ├─ Mistral API / Chat
+│     ├─ Together AI
+│     └─ Microsoft Copilot
+│  🍃 Rollup
+│  Geo         : US Warrenville AT&T Enterprises, LLC
+│  Profile     : ISP, Business
+│  Score       : 75 Moderate Risk
+│  Confidence  : 59% mixed
+│  Cleanliness : 🌼 Clean
+│  Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
+╰───────────────────────────────────────
 
-[socks5://127.0.0.1:11080]
-──────── 🧭 Target hits ────────
-└─ 2600:1700:...:72f0
-   ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
-   ├─ Anthropic Console / Claude
-   ├─ MiniMax Intl Web / Platform
-   ├─ xAI Grok
-   ├─ Mistral API / Chat
-   ├─ Together AI
-   └─ Microsoft Copilot
-──────── 🍃 Rollup ────────
-Geo         : US Warrenville AT&T Enterprises, LLC
-Profile     : ISP, Business
-Score       : 75 Moderate Risk
-Confidence  : 59% mixed
-Cleanliness : 🌼 Clean
-Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
+╭─ 🧪 [socks5://127.0.0.1:11080] ──────
+│  🧭 Target hits
+│  └─ 2600:1700:...:72f0
+│     ├─ ⭐ OpenAI OAuth / ChatGPT / Platform
+│     ├─ Anthropic Console / Claude
+│     ├─ MiniMax Intl Web / Platform
+│     ├─ xAI Grok
+│     ├─ Mistral API / Chat
+│     ├─ Together AI
+│     └─ Microsoft Copilot
+│  🍃 Rollup
+│  Geo         : US Warrenville AT&T Enterprises, LLC
+│  Profile     : ISP, Business
+│  Score       : 75 Moderate Risk
+│  Confidence  : 59% mixed
+│  Cleanliness : 🌼 Clean
+│  Signal Bar  : 🍔🍔🍔🍔🍔🍔🍔🍟▫️▫️
+╰───────────────────────────────────────
 ```
 
 🪄 Conclusion
@@ -216,9 +220,14 @@ Confidence : 59% mixed
     - `──────── 🧭 Per-target exit IPs ────────`
 
 - `Block Grouping Rule`
-  - Prefer one code block per tested path, port, or connector.
-  - Keep target hits and rollup together inside that same block.
-  - Split into multiple code blocks only when the tested paths differ.
+  - Prefer one shared code block for the whole message.
+  - Keep each tested path self-contained inside that block.
+  - Use a decorated path header to separate paths clearly.
+
+- `Path Header Style`
+  - Make each tested path easy to spot with a header line such as:
+    - `╭─ 🧪 [http://127.0.0.1:18080] ─────────`
+    - `╰───────────────────────────────────────`
 
 - `Active Channel Marker`
   - If the current OpenClaw model/auth provider is known, mark that line with `⭐`

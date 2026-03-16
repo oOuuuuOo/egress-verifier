@@ -34,7 +34,7 @@ When the result is sent through Telegram or another chat surface:
 - Always keep `Geo` in the rollup section, even if the user did not ask for it explicitly.
 - Replace color-only meaning with text cues such as `Cleanliness`, `Signal Bar`, and a confidence cue.
 - Add light, bright emoji anchors and tree glyphs so the message is easier to scan in Telegram.
-- Group the report by tested path or port. Each code block should be a self-contained mini-report.
+- Group the report by tested path or port, but prefer a single shared code block when comparing multiple paths.
 
 ## Text Replacements For Visual Signals
 
@@ -67,8 +67,9 @@ Use these when the original CLI color/purity feel would otherwise be lost:
   - A single divider line near the top of each code block can make the message feel more polished
 
 - `Path-Scoped Blocks`
-  - Keep target hits and rollup together inside the same code block when they belong to one tested path
-  - Split into multiple code blocks only when the tested paths differ
+  - Keep target hits and rollup together for each tested path
+  - Prefer one shared code block for the whole report
+  - Separate paths with decorated headers instead of opening a new code block each time
 
 - `Active Channel Marker`
   - When the current OpenClaw provider is known, prefix that provider line with `⭐`
